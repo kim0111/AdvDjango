@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Invoice #{{ invoice.id }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .invoice-container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    h2, h3 {
+      color: #007bff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .total {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: right;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="invoice-container">
+    <h2>Invoice #{{ invoice.id }}</h2>
+    <p><strong>Date:</strong> {{ invoice.generated_at|date:"Y-m-d H:i" }}</p>
+    <p><strong>Customer:</strong> {{ invoice.sales_order.user.username }}</p>
+
+    <h3>Order Items</h3>
+    <table>
+      <tr><th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th></tr>
+      {% for item in invoice.sales_order.items.all %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>${{ item.price }}</td>
+          <td>${{ item.subtotal }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <p class="total">Total: ${{ invoice.sales_order.total }}</p>
+  </div>
+</body>
+</html>
