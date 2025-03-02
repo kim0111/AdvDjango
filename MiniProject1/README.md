@@ -1,5 +1,5 @@
 # Mini Project #1
-###Video: https://youtu.be/3oz6fx0ZsC0
+### Video: https://youtu.be/3oz6fx0ZsC0
 
 ## Some screenshots
 
