@@ -96,9 +96,9 @@ WSGI_APPLICATION = 'MiniProject1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'lab2',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': '8956',
         'PORT': '5432',
     }
 }
