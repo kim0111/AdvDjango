@@ -1,0 +1,67 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Dashboard - Expense Counter{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Personal Expenses</h5>
+                    <h1 class="display-4">${{ total_expenses|floatformat:2 }}</h1>
+                    <p class="text-muted">Your total personal expenses</p>
+                    <a href="{% url 'expense_list' %}" class="btn btn-primary">View details</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Group Expenses</h5>
+                    <h1 class="display-4">${{ total_shares|floatformat:2 }}</h1>
+                    <p class="text-muted">Your share of group expenses</p>
+                    <a href="{% url 'group_expense_list' %}" class="btn btn-primary">View details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    Expenses by Category
+                </div>
+                <div class="card-body">
+                    {% if category_expenses %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for category in category_expenses %}
+                                    <tr>
+                                        <td>{{ category.name }}</td>
+                                        <td>${{ category.amount|floatformat:2 }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No category expenses found.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

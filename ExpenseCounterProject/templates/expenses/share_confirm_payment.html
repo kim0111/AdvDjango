@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Confirm Payment{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h4>Confirm Payment</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ share.group_expense.name }}</h5>
+                        <p class="card-text">Are you sure you want to mark your share of
+                            <strong>${{ share.share_amount|floatformat:2 }}</strong> as paid?</p>
+                        <p class="card-text text-muted">This action cannot be undone.</p>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="{% url 'group_expense_detail' share.group_expense.id %}"
+                                   class="btn btn-secondary me-md-2">Cancel</a>
+                                <button type="submit" class="btn btn-success">Confirm Payment</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

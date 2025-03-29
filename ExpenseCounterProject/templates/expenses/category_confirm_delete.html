@@ -1,0 +1,36 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Delete Category - Expense Counter{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Delete Category</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 col-lg-6 mx-auto">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Confirm Deletion</h5>
+                </div>
+                <div class="card-body">
+                    <p class="lead">Are you sure you want to delete the category <strong>"{{ category.name }}"</strong>?
+                    </p>
+
+                    <div class="alert alert-warning">
+                        <strong>Warning:</strong> Deleting this category will remove it from all associated expenses.
+                        Those expenses will be marked as "Uncategorized".
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a href="{% url 'category_list' %}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Group Expenses - Expense Counter{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Group Expenses</h1>
+        <div>
+            <a href="{% url 'group_expense_add' %}" class="btn btn-primary">
+                <i class="bi bi-plus-circle me-2"></i> Add Group Expense
+            </a>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Filter Group Expenses</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-6 col-lg-3">
+                            <label class="form-label">Category</label>
+                            {{ filter.form.category }}
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <label class="form-label">Date Range (From)</label>
+                            {{ filter.form.date_from }}
+                        </div>
+                        <div class="col-md-6 col-lg-3">
+                            <label class="form-label">Date Range (To)</label>
+                            {{ filter.form.date_to }}
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                            <a href="{% url 'group_expense_list' %}" class="btn btn-outline-secondary">Clear Filters</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if group_expenses %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Total Amount</th>
+                            <th>Your Share</th>
+                            <th>Participants</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for expense in group_expenses %}
+                            <tr>
+                                <td>{{ expense.date|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'group_expense_detail' expense.id %}">
+                                        {{ expense.name|truncatechars:20 }}
+                                    </a>
+                                </td>
+                                <td>
+                                    {% if expense.category %}
+                                        <span class="badge bg-info">{{ expense.category.name }}</span>
+                                    {% else %}
+                                        <span class="text-muted">Uncategorized</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ expense.amount|floatformat:2 }}</td>
+                                <td>
+                                    {% with share_amount=user_shares|get_item:expense.id %}
+                                        {{ share_amount|floatformat:2 }}
+                                    {% endwith %}
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ expense.users.all|length }} users</span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'group_expense_detail' expense.id %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-center my-3">No group expenses found.</p>
+                <div class="text-center">
+                    <a href="{% url 'group_expense_add' %}" class="btn btn-primary">Create Your First Group
+                        Expense</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

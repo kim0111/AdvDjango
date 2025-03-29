@@ -1,0 +1,22 @@
+{% extends 'expenses/base.html' %}
+
+{% block title %}Delete Expense - Expense Counter{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Delete Expense</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <p>Are you sure you want to delete the expense: <strong>${{ expense.amount }}
+                - {{ expense.description }}</strong>?</p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <a href="{% url 'expense_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}
